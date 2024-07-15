@@ -21,18 +21,19 @@ const useFetch = (url) => { //"use" is needed for first name to make a custom ho
                 setIsLoading(false);
             })
             .catch(e => {
-                if(e.name === 'AbortError') {
+                if (e.name === 'AbortError') {
                     console.log("Fetch Aborted");
+                } else {
+                    setIsLoading(false);
+                    setError(e.message);
                 }
-                setIsLoading(false);
-                setError(e.message);
             });
 
-            return () => abortCont.abort; // To stop fetching in the background
+        return () => abortCont.abort; // To stop fetching in the background
     }, [url] /*Only run for certain dependencies (like [data])*/);
     // [] means only run once on initial render
 
-    return {data, isLoading, error};
+    return { data, isLoading, error };
 }
 
 export default useFetch;
